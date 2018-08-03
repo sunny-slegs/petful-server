@@ -52,9 +52,6 @@ app.get('/api/dog', (req, res) => {
   res.json(data);
 });
 
-app.get('/', (req, res) => {
-  res.json({greeting: 'hello'});
-});
 
 function runServer(port = PORT) {
   const server = app
