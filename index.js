@@ -33,7 +33,18 @@ const cat = [
   breed: 'Bengal',
   story: 'Thrown on the street'
 
-}]
+},
+{
+imageURL:'https://assets3.thrillist.com/v1/image/2622128/size/tmg-slideshow_l.jpg',
+imageDescription: 'Orange bengal cat with black stripes lounging on concrete.',
+name: 't',
+sex: 'male',
+age: 23,
+breed: 'red Bengal',
+story: 'running in street'
+
+}
+]
 
 const dog = [ {
   imageURL: 'http://www.dogster.com/wp-content/uploads/2015/05/Cute%20dog%20listening%20to%20music%201_1.jpg',
@@ -58,7 +69,7 @@ const dog = [ {
 ]
 
 app.get('/api/cat', (req, res) => {
-  res.json(cat[0]);
+  res.json(cat);
 });
 
 app.get('/api/dog', (req, res) => {
@@ -73,6 +84,11 @@ app.get('/', (req, res) => {
 
 app.delete(`/api/dog`, (req,res) => {
   res.json(dog.shift());
+  res.sendStatus(204);
+});
+
+app.delete(`/api/cat`, (req,res) => {
+  res.json(cat.shift());
   res.sendStatus(204);
 });
 
