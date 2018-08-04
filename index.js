@@ -3,12 +3,17 @@
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
+const Queue = require('./queue');
 
 const { PORT, CLIENT_ORIGIN } = require('./config');
 // const { dbConnect } = require('./db-mongoose');
 // const {dbConnect} = require('./db-knex');
 
 const app = express();
+
+const catQueue = new Queue();
+const dogQueue = new Queue();
+
 
 app.use(
   morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', {
@@ -31,7 +36,6 @@ const cat = [
     age: 2,
     breed: 'Bengal',
     story: 'Thrown on the street'
-
   },
   {
     imageURL:'https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?auto=compress&cs=tinysrgb&h=350',
@@ -41,7 +45,6 @@ const cat = [
     age: 3,
     breed: 'American',
     story: 'family moved'
-
   }
 ];
 
@@ -63,25 +66,40 @@ const dog = [ {
   breed: 'Pug',
   story: 'got lost'
 }
-
-
 ];
 
+cat.forEach(cat => catQueue.enqueue(cat));
+dog.forEach(dog => dogQueue.enqueue(dog));
+
 app.get('/api/cat', (req, res) => {
-  res.json(cat[0]);
+  if (catQueue.peek()) {
+    const cat = catQueue.peek();
+    res.json(cat);
+  } else {
+    const err = new Error();
+    err.message = 'All cats have been adopted';
+    err.status = 400;
+  }
 });
 
 app.get('/api/dog', (req, res) => {
-  res.json(dog[0]);
+  if (dogQueue.peek()) {
+    const dog = dogQueue.peek();
+    res.json(dog);
+  } else {
+    const err = new Error();
+    err.message = 'All dogs have been adopted';
+    err.status = 400;
+  }
 });
 
 app.delete('/api/dog', (req,res) => {
-  res.json(dog.shift());
+  dogQueue.dequeue();
   res.sendStatus(204);
 });
 
 app.delete('/api/cat', (req,res) => {
-  res.json(cat.shift());
+  catQueue.dequeue();
   res.sendStatus(204);
 });
 
