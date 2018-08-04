@@ -9,7 +9,6 @@ const { PORT, CLIENT_ORIGIN } = require('./config');
 // const {dbConnect} = require('./db-knex');
 
 const app = express();
-const router = express.Router();
 
 app.use(
   morgan(process.env.NODE_ENV === 'production' ? 'common' : 'dev', {
@@ -25,26 +24,26 @@ app.use(
 
 const cat = [
   {
-  imageURL:'https://assets3.thrillist.com/v1/image/2622128/size/tmg-slideshow_l.jpg',
-  imageDescription: 'Orange bengal cat with black stripes lounging on concrete.',
-  name: 'Fluffy',
-  sex: 'Female',
-  age: 2,
-  breed: 'Bengal',
-  story: 'Thrown on the street'
+    imageURL:'https://assets3.thrillist.com/v1/image/2622128/size/tmg-slideshow_l.jpg',
+    imageDescription: 'Orange bengal cat with black stripes lounging on concrete.',
+    name: 'Fluffy',
+    sex: 'Female',
+    age: 2,
+    breed: 'Bengal',
+    story: 'Thrown on the street'
 
-},
-{
-imageURL:'https://assets3.thrillist.com/v1/image/2622128/size/tmg-slideshow_l.jpg',
-imageDescription: 'Orange bengal cat with black stripes lounging on concrete.',
-name: 't',
-sex: 'male',
-age: 23,
-breed: 'red Bengal',
-story: 'running in street'
+  },
+  {
+    imageURL:'https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?auto=compress&cs=tinysrgb&h=350',
+    imageDescription: 'Grey and white cat with orange eyes',
+    name: 'Tammy',
+    sex: 'Female',
+    age: 3,
+    breed: 'American',
+    story: 'family moved'
 
-}
-]
+  }
+];
 
 const dog = [ {
   imageURL: 'http://www.dogster.com/wp-content/uploads/2015/05/Cute%20dog%20listening%20to%20music%201_1.jpg',
@@ -56,35 +55,32 @@ const dog = [ {
   story: 'Owner Passed away'
 },
 {
-  imageURL: 'http://www.dogster.com/wp-content/uploads/2015/05/Cute%20dog%20listening%20to%20music%201_1.jpg',
-  imageDescription: ' music.',
-  name: 's',
-  sex: 'feMale',
-  age: 5,
-  breed: 'blue Retriever',
-  story: 'Owned'
+  imageURL: 'https://www.pets4homes.co.uk/images/articles/4229/large/pugs-and-eye-disorders-recognising-theres-a-problem-595b4a467850f.jpg',
+  imageDescription: 'a pug!',
+  name: 'Alex',
+  sex: 'Male',
+  age: 2,
+  breed: 'Pug',
+  story: 'got lost'
 }
 
 
-]
+];
 
 app.get('/api/cat', (req, res) => {
-  res.json(cat);
+  res.json(cat[0]);
 });
 
 app.get('/api/dog', (req, res) => {
   res.json(dog[0]);
 });
 
-
-
-
-app.delete(`/api/dog`, (req,res) => {
+app.delete('/api/dog', (req,res) => {
   res.json(dog.shift());
   res.sendStatus(204);
 });
 
-app.delete(`/api/cat`, (req,res) => {
+app.delete('/api/cat', (req,res) => {
   res.json(cat.shift());
   res.sendStatus(204);
 });
